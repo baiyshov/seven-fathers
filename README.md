@@ -1,24 +1,46 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Санжыра</title>
-    <link rel="stylesheet" href="./style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .person {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .children {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <h1>Санжыра</h1>
-    <div id="tree" class="tree">
-        </div>
-    </div>
-    
-    <script src="./script.js"></script>
-</body>
-</html>
+    <div id="tree" class="tree"></div>
 
-
-const sanjyraData = {
+    <script>
+       const sanjyraData = {
     name: "Долон бий",
     children: [
         {
@@ -229,53 +251,29 @@ const sanjyraData = {
     ]
 }
 
+        // Рекурсивное построение дерева
+        function createTreeNode(person) {
+            const personDiv = document.createElement('div');
+            personDiv.className = 'person';
+            personDiv.innerHTML = `<span>${person.name}</span>`;
 
-function createTreeNode(person) {
-const personDiv = document.createElement('div');
-personDiv.className = 'person';
-personDiv.innerHTML = `<span>${person.name}</span>`;
+            if (person.children && person.children.length > 0) {
+                const childrenContainer = document.createElement('div');
+                childrenContainer.className = 'children';
 
-if (person.children) {
-const childrenContainer = document.createElement('div');
-childrenContainer.className = 'children';
-person.children.forEach(child => {
-childrenContainer.appendChild(createTreeNode(child));
-});
-personDiv.appendChild(childrenContainer);
-}
+                person.children.forEach(child => {
+                    childrenContainer.appendChild(createTreeNode(child));
+                });
 
-return personDiv;
-}
+                personDiv.appendChild(childrenContainer);
+            }
 
-const treeContainer = document.getElementById('tree');
-treeContainer.appendChild(createTreeNode(sanjyraData));
+            return personDiv;
+        }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 20px;
-}
-.tree {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.person {
-    display: inline-block;
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid #000;
-    border-radius: 5px;
-    background-color:floralwhite;
-}
-.children {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-    
-}
+        // Рендеринг дерева в HTML
+        const treeContainer = document.getElementById('tree');
+        treeContainer.appendChild(createTreeNode(sanjyraData));
+    </script>
+</body>
+</html>
